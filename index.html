@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HP Films Kanpur | Timeless Cinematic Stories</title>
+  <meta name="description" content="Capturing authentic wedding moments in cinematic style. Kanpur-based films and photography."/>
+  
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html, body { overflow-x: hidden; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacOSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f8f8f8;
+      color: #111;
+      line-height: 1.7;
+      font-size: clamp(15px, 2.6vw, 17px);
+    }
+    h1, h2, h3 {
+      font-weight: 500;
+      letter-spacing: -0.3px;
+    }
+    .subtitle {
+      font-size: clamp(1.1rem, 3vw, 1.4rem);
+      color: #555;
+      text-align: center;
+      margin-bottom: 4rem;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      font-weight: 300;
+    }
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: opacity 0.4s ease;
+    }
+    a:hover { opacity: 0.75; }
+
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      padding: 1.8rem 7% 1.6rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #000;
+      color: #fff;
+      transition: padding 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      opacity: 0;
+      transform: translateY(-20px);
+      animation: headerFade 1.3s forwards 0.4s;
+    }
+    @keyframes headerFade {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    header.scrolled { padding: 1.2rem 7% 1rem; }
+    .logo {
+      font-size: clamp(1.5rem, 4vw, 1.9rem);
+      letter-spacing: 4px;
+    }
+    nav {
+      display: flex;
+      gap: 3.2rem;
+    }
+    nav a {
+      font-size: clamp(0.9rem, 2.2vw, 1rem);
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+    }
+
+    .hero {
+      height: 100vh;
+      min-height: 880px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding-top: 80px; /* prevent overlap with fixed header */
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: url('https://via.placeholder.com/1920x1280/f8f8f8/333?text=Authentic+Moment') center/cover no-repeat;
+      filter: brightness(0.95) contrast(1.06);
+    }
+    .hero-content,
+    .portfolio-item {
+      will-change: transform, opacity;
+      opacity: 0;
+      transform: translate3d(0, 70px, 0) scale(0.96);
+      transition: opacity 1.2s cubic-bezier(0.215, 0.61, 0.355, 1),
+                  transform 1.2s cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+    .visible {
+      opacity: 1;
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    .hero h1 {
+      font-size: clamp(5rem, 12vw, 9.5rem);
+      line-height: 0.88;
+      margin-bottom: 1.2rem;
+    }
+    .hero .subtitle {
+      margin-bottom: 3rem;
+    }
+
+    .btn {
+      padding: 0.9rem 2.6rem;
+      background: #111;
+      color: #f8f8f8;
+      border: 1px solid #111;
+      font-size: clamp(0.9rem, 2.2vw, 1rem);
+      letter-spacing: 2.2px;
+      text-transform: uppercase;
+      transition: all 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+      margin: 0.6rem;
+      border-radius: 2px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    }
+    .btn:hover {
+      background: #000;
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.2);
+    }
+    .instagram-btn {
+  background: linear-gradient(45deg, #f58529, #dd2a7b, #8134af);
+  border: none;
+}
+
+.instagram-btn:hover {
+  filter: brightness(1.05);
+}
+
+
+    section {
+      padding: 12rem 7% 9rem;
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+    h2 {
+      font-size: clamp(3.2rem, 8vw, 5.8rem);
+      text-align: center;
+      margin-bottom: 1rem;
+      font-weight: 400;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 5vw, 2.5rem);
+      text-align: center;
+      margin: 4rem 0 2rem;
+      font-weight: 400;
+      letter-spacing: 1px;
+    }
+
+    .videos-grid, .photos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2.5rem;
+    }
+
+    .portfolio-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+      transition: transform 0.45s ease, box-shadow 0.45s ease;
+      background: #fff;
+    }
+    .portfolio-item:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.14);
+    }
+    .portfolio-item img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.6s ease;
+    }
+    .portfolio-item:hover img {
+      transform: scale(1.05);
+    }
+    .caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.75), transparent);
+      color: #fff;
+      padding: 1.5rem 1rem;
+      text-align: center;
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .portfolio-item:hover .caption { opacity: 1; }
+
+    .contact .subtitle {
+      margin-bottom: 4rem;
+    }
+    .contact { text-align: center; }
+    form {
+      max-width: 680px;
+      margin: 0 auto 3.5rem;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 1.1rem;
+      margin: 1.1rem 0;
+      background: transparent;
+      border: 1px solid #ddd;
+      color: #111;
+      font-size: 1rem;
+      transition: border-color 0.4s ease, box-shadow 0.4s ease;
+    }
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: #111;
+      box-shadow: 0 0 0 3px rgba(17,17,17,0.08);
+    }
+    button {
+      background: #111;
+      color: #f8f8f8;
+      border: none;
+      padding: 1.1rem 3.8rem;
+      font-size: 1rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    button:hover {
+      opacity: 0.94;
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.18);
+    }
+
+    footer {
+      padding: 6rem 7% 4rem;
+      text-align: center;
+      color: #666;
+      font-size: 0.92rem;
+      border-top: 1px solid #eee;
+    }
+    .social a {
+      margin: 0 1.8rem;
+      font-size: 1.1rem;
+      letter-spacing: 1px;
+    }
+
+    .portfolio-itemx {
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+      transition: transform 0.45s ease, box-shadow 0.45s ease;
+      background: #fff;
+      /* Defines a consistent shape for the photo cards regardless of screen size */
+      aspect-ratio: 4 / 5; 
+    }
+    
+    .portfolio-itemx:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.14);
+    }
+    
+    .portfolio-itemx img {
+      width: 100%;
+      height: 100%; /* Fills the aspect-ratio container */
+      object-fit: cover; /* Acts like a background image, cropping nicely without distortion */
+      display: block;
+      transition: transform 0.6s ease;
+    }
+    .portfolio-itemx:hover img {
+      transform: scale(1.05);
+    }
+
+    /* ────────────────────────────────────────────────
+       RESPONSIVE MEDIA QUERIES – Enhanced
+    ───────────────────────────────────────────────── */
+
+    @media (min-width: 1440px) {
+      body { font-size: 18px; }
+      .hero h1 { font-size: clamp(8rem, 11vw, 14rem); }
+      section { max-width: 1800px; padding-left: 10%; padding-right: 10%; }
+    }
+
+    @media (max-width: 1024px) {
+      section { padding: 10rem 6% 7rem; }
+      h2 { font-size: clamp(2.8rem, 7vw, 5rem); }
+      .videos-grid, .photos-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+      nav { gap: 2.2rem; }
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 1.3rem 5% 1.1rem;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+      .logo { font-size: 1.6rem; }
+      nav { gap: 1.4rem; flex-wrap: wrap; justify-content: flex-end; }
+      nav a { font-size: 0.9rem; }
+      .hero {
+        min-height: 85vh;
+        padding-top: 80px; /* space for fixed black header */
+      }
+      .hero h1 { font-size: clamp(3.6rem, 11vw, 6rem); }
+      .hero .subtitle { font-size: 1.15rem; padding: 0 8%; }
+      .btn {
+        width: 85%;
+        max-width: 320px;
+        margin: 1rem auto;
+        display: block;
+      }
+      section { padding: 8rem 5% 6rem; }
+      h2 { font-size: clamp(2.6rem, 7.5vw, 4.2rem); margin-bottom: 0.8rem; }
+      .subtitle { font-size: 1.1rem; margin-bottom: 3rem; padding: 0 5%; }
+      .section-title { font-size: clamp(1.6rem, 4vw, 2rem); margin: 3rem 0 1.5rem; }
+      .videos-grid, .photos-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .portfolio-item { margin: 0 auto; max-width: 90%; }
+      .caption { opacity: 1; background: linear-gradient(to top, rgba(0,0,0,0.75), transparent); padding: 1.2rem; font-size: 1.2rem; }
+      form { max-width: 100%; }
+      input, textarea, button { font-size: 1.05rem; padding: 1.2rem 1.4rem; }
+      footer { padding: 5rem 5% 3.5rem; }
+      .social a { margin: 0 1.2rem; font-size: 1rem; }
+    }
+
+    @media (max-width: 480px) {
+      header { padding: 1.1rem 4%; }
+      .logo { font-size: 1.4rem; }
+      nav { gap: 1rem; }
+      nav a { font-size: 0.85rem; }
+      .hero h1 { font-size: clamp(2.8rem, 10vw, 4.5rem); }
+      .hero .subtitle { font-size: 1rem; padding: 0 6%; }
+      .btn {
+        padding: 0.8rem 1.8rem;
+        font-size: 0.9rem;
+        width: 100%;
+        margin: 0.8rem 0;
+      }
+      section { padding: 6rem 5% 5rem; }
+      .portfolio-item { max-width: 100%; }
+    }
+
+    /* Touch devices – better feedback */
+    @media (hover: none) and (pointer: coarse) {
+      .btn:active,
+      button:active {
+        transform: scale(0.97);
+        transition: transform 0.12s;
+      }
+    }
+    .work-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+/* ── ABOUT SECTION ── */
+#about {
+  background: #fff;
+  max-width: 100%;
+  padding: 10rem 0;
+}
+.about-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 7%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7rem;
+  align-items: center;
+}
+.about-image-wrap {
+  position: relative;
+}
+.about-image-wrap::before {
+  content: '';
+  position: absolute;
+  top: -24px;
+  left: -24px;
+  width: 100%;
+  height: 100%;
+  border: 1px solid #c9a96e;
+  border-radius: 4px;
+  z-index: 0;
+  transition: transform 0.5s ease;
+}
+.about-image-wrap:hover::before {
+  transform: translate(6px, 6px);
+}
+.about-image-wrap img {
+  width: 100%;
+  height: 560px;
+  object-fit: cover;
+  border-radius: 4px;
+  display: block;
+  position: relative;
+  z-index: 1;
+  filter: grayscale(15%);
+  transition: filter 0.5s ease;
+}
+.about-image-wrap:hover img {
+  filter: grayscale(0%);
+}
+.about-eyebrow {
+  font-size: 0.78rem;
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  color: #c9a96e;
+  margin-bottom: 1.2rem;
+  display: block;
+}
+.about-text h2 {
+  text-align: left;
+  font-size: clamp(2.8rem, 5vw, 4.2rem);
+  line-height: 1.1;
+  margin-bottom: 0.4rem;
+}
+.about-name-sub {
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  font-style: italic;
+  color: #888;
+  margin-bottom: 2.4rem;
+  display: block;
+}
+.about-text p {
+  font-size: clamp(0.95rem, 1.8vw, 1.05rem);
+  color: #444;
+  line-height: 1.85;
+  margin-bottom: 1.4rem;
+  font-weight: 300;
+}
+.about-stats {
+  display: flex;
+  gap: 3rem;
+  margin-top: 3rem;
+  padding-top: 2.4rem;
+  border-top: 1px solid #eee;
+}
+.stat-number {
+  font-size: clamp(2.6rem, 4vw, 3.6rem);
+  font-weight: 300;
+  color: #111;
+  line-height: 1;
+  display: block;
+}
+.stat-label {
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #999;
+  margin-top: 0.3rem;
+  display: block;
+}
+.about-reveal {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 1s cubic-bezier(0.215, 0.61, 0.355, 1),
+              transform 1s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+.about-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.about-reveal.delay-1 { transition-delay: 0.15s; }
+.about-reveal.delay-2 { transition-delay: 0.3s; }
+
+@media (max-width: 768px) {
+  #about { padding: 7rem 0; }
+  .about-inner { grid-template-columns: 1fr; gap: 3.5rem; padding: 0 5%; }
+  .about-image-wrap img { height: 380px; }
+  .about-stats { gap: 2rem; }
+}
+@media (max-width: 480px) {
+  .about-image-wrap::before { display: none; }
+  .about-stats { flex-direction: column; gap: 1.5rem; }
+}
+/* Ensure the code blocks use monolisa for editors that render this */
+pre, code {
+  font-family: 'Monolisa', monospace;
+}
+  </style>
+</head>
+<body>
+
+  <header id="header">
+    <div class="logo">HP FILMS</div>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#work">Stories</a>
+      <a href="#contact">Book</a>
+      <a href="#about">About</a>
+    </nav>
+  </header>
+
+  <section id="home" class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <h1>HP Films</h1>
+      <div class="subtitle">Cinematic wedding films and photography that capture real emotions and timeless moments in Kanpur</div>
+      <center><a href="https://wa.me/919307490467" class="btn" target="_blank">Reserve Your Date</a>
+      <a href="https://www.instagram.com/hp_films_kanpur/" 
+   class="btn instagram-btn" 
+   target="_blank">
+  Instagram
+</a></center>
+
+    </div>
+  </section>
+<div id="about">
+  <div class="about-inner">
+    <div class="about-image-wrap about-reveal">
+      <img src="WhatsApp Image 2026-03-29 at 10.13.49.jpeg" alt="Hari Narayan Gupta – Founder, HP Films Kanpur">
+    </div>
+    <div class="about-text about-reveal delay-1">
+      <span class="about-eyebrow">Our Story</span>
+      <h2>Hari Narayan Gupta</h2>
+      <span class="about-name-sub">Founder &amp; Chief Cinematographer, HP Films</span>
+      <p>
+        With over two and a half decades of dedicated craft behind the lens, Hari Narayan Gupta has built HP Films into one of Kanpur's most trusted names in wedding cinematography and photography. Since establishing the studio in 1998, his singular vision has remained unchanged — to document love stories with honesty, artistry, and lasting grace.
+      </p>
+      <p>
+        Hari's approach is rooted in observation. Rather than directing moments, he captures them as they unfold — the quiet glance before the vows, the laughter that breaks through tears, the stillness between celebrations. Every frame is composed with purpose, every film edited with narrative care.
+      </p>
+      <p>
+        Over the years, HP Films has had the privilege of telling hundreds of unique love stories across Kanpur and beyond, earning the trust of families who value authenticity over spectacle.
+      </p>
+      <div class="about-stats about-reveal delay-2">
+        <div class="stat-item">
+          <span class="stat-number">26+</span>
+          <span class="stat-label">Years Experience</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">500+</span>
+          <span class="stat-label">Weddings Filmed</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">1998</span>
+          <span class="stat-label">Est. Kanpur</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  <section id="work">
+    <h2>Our Stories</h2>
+    <div class="subtitle">A selection of heartfelt wedding highlights, teasers, candid captures and timeless portraits — each telling a unique love story</div>
+
+    <h3 class="section-title">Videos</h3>
+    <div class="videos-grid">
+      <div class="portfolio-item">
+        <a href="https://www.youtube.com/watch?v=DpUrPXqNqcE" target="_blank">
+          <img src="https://img.youtube.com/vi/DpUrPXqNqcE/maxresdefault.jpg" alt="Cinematic Wedding Highlight">
+          <div class="caption">Cinematic Wedding Highlight</div>
+        </a>
+      </div>
+
+      <div class="portfolio-item">
+        <a href="https://www.youtube.com/watch?v=r9rqb_oZI2w" target="_blank">
+          <img src="https://img.youtube.com/vi/r9rqb_oZI2w/maxresdefault.jpg" alt="Pre-Wedding Teaser">
+          <div class="caption">Pre-Wedding Teaser</div>
+        </a>
+      </div>
+
+      <div class="portfolio-item">
+        <a href="https://www.youtube.com/watch?v=Z-NpHLN9OFo" target="_blank">
+          <img src="https://img.youtube.com/vi/Z-NpHLN9OFo/maxresdefault.jpg" alt="Wedding Film Moment">
+          <div class="caption">Wedding Film Moment</div>
+        </a>
+      </div>
+
+      
+    </div>
+
+    <h3 class="section-title">Photos</h3>
+    <div class="photos-grid">
+      <div class="portfolio-itemx">
+        <img src="67 (5).JPG" alt="Couple Close-Up Portrait">
+        <div class="caption">Couple Close-Up Portrait</div>
+      </div>
+
+      <div class="portfolio-itemx">
+        <img src="219A9877 copy.jpg" alt="Sparkler Pre-Wedding Shot">
+        <div class="caption">Sparkler Pre-Wedding Shot</div>
+      </div>
+
+      <div class="portfolio-itemx">
+        <img src="67 (4).JPG" alt="Emotional Embrace">
+        <div class="caption">Emotional Embrace</div>
+      </div>
+
+      
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <h2>Begin Your Story</h2>
+    <div class="subtitle">Get in touch to discuss your wedding vision — we're ready to create something beautiful together</div>
+    <form id="contactForm">
+      <input type="text" placeholder="Name" required>
+      <input type="tel" placeholder="Phone" required>
+      <input type="email" placeholder="Email" required>
+      <input type="date">
+      <textarea rows="5" placeholder="Tell us about your day..." required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+    <p>Or WhatsApp: <a href="https://wa.me/919307490467">+91 9307490467</a></p>
+  </section>
+
+  <footer>
+    <div class="social">
+      <a href="https://www.instagram.com/hpfilms_kanpur/" target="_blank">Instagram</a>
+      <a href="https://www.youtube.com/@hpfilms_kanpur" target="_blank">YouTube</a>
+    </div>
+    <p>© 2026 HP Films Kanpur</p>
+  </footer>
+
+  <script>
+    // Header scroll effect
+    window.addEventListener('scroll', () => {
+      document.getElementById('header').classList.toggle('scrolled', window.scrollY > 120);
+    });
+
+    // Improved staggered reveal animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          el.style.transitionDelay = `${index * 100}ms`; // stagger by 100ms
+          el.classList.add('visible');
+          observer.unobserve(el); // only animate once
+        }
+      });
+    }, {
+      threshold: 0.15,
+      rootMargin: "0px 0px -100px 0px"
+    });
+
+    document.querySelectorAll('.hero-content, .portfolio-item, .portfolio-itemx').forEach(el => observer.observe(el));
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', e => {
+        e.preventDefault();
+        document.querySelector(anchor.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+
+    // Simple form feedback
+    document.getElementById('contactForm').addEventListener('submit', e => {
+      e.preventDefault();
+      alert('Thank you — your inquiry has been sent.');
+      e.target.reset();
+    });
+    document.querySelectorAll('.hero-content, .portfolio-item, .portfolio-itemx, .about-reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
